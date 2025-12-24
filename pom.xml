@@ -29,12 +29,7 @@
     </properties>
 
     <modules>
-        <module>app</module>
-        <module>inbound-port</module>
-        <module>outbound-port</module>
-        <module>core</module>
-        <module>inboud-adapter</module>
-        <module>outbound-adapter</module>
+        <module>example-hexagonal</module>
     </modules>
 
     <dependencyManagement>
