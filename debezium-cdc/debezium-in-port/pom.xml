@@ -5,19 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>pawg.hexagonal</groupId>
-        <artifactId>hexagonal</artifactId>
+        <artifactId>debezium-cdc</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>example-hexagonal</artifactId>
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>app</module>
-        <module>core</module>
-        <module>in-port</module>
-        <module>in-adapter</module>
-        <module>out-adapter</module>
-    </modules>
+    <groupId>pawg.hexagonal.cdc</groupId>
+    <artifactId>debezium-in-port</artifactId>
 
 </project>

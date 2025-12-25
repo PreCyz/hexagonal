@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pawg.hexagonal.domain.DataDomain;
-import pawg.hexagonal.outbound.port.db.DBPort;
+import pawg.hexagonal.out.port.DBPort;
 
 import java.util.Optional;
 
