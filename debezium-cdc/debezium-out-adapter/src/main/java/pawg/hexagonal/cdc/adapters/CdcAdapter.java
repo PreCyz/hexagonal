@@ -35,7 +35,7 @@ public class CdcAdapter implements CdcPort {
             change.setTimestamp(LocalDateTime.now());
             changeRepository.save(change);
             log.info("Change {} has been saved", change);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             log.error(e.getMessage(), e);
         }
     }

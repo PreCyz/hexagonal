@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pawg.hexagonal.cdc.domain.DebeziumEvent;
 import pawg.hexagonal.cdc.out.port.CdcPort;
-import pawg.hexagonal.cdc.out.port.DebeziumPort;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -24,7 +23,7 @@ import java.util.concurrent.Executors;
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
-public class DebeziumService implements DebeziumPort {
+public class DebeziumService {
 
     private final ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
     private final ObjectMapper objectMapper = new ObjectMapper();
