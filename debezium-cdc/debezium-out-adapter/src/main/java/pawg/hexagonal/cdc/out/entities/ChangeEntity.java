@@ -15,7 +15,7 @@ import java.util.Map;
 @Getter
 @Setter
 @ToString
-public class Change implements Serializable {
+public class ChangeEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

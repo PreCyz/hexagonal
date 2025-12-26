@@ -3,8 +3,8 @@ package pawg.hexagonal.cdc.out.mappers;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.mapstruct.*;
-import pawg.hexagonal.cdc.domain.CdcEvent;
-import pawg.hexagonal.cdc.out.entities.Change;
+import pawg.hexagonal.cdc.domain.CdcEventDomain;
+import pawg.hexagonal.cdc.out.entities.ChangeEntity;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -21,13 +21,13 @@ public abstract class ChangeMapper {
     @Mapping(target = "valueAfter", source = "valueAfterChange", qualifiedByName = "convertToMap")
     @Mapping(target = "valueBefore", source = "valueBeforeChange", qualifiedByName = "convertToMap")
     @Mapping(target = "db", source = "databaseName")
-    public abstract Change cdcEventToChange(CdcEvent cdcEvent);
+    public abstract ChangeEntity cdcEventToChange(CdcEventDomain cdcEventDomain);
 
     @Mapping(target = "valueBeforeChange", source = "valueBefore")
     @Mapping(target = "valueAfterChange", source = "valueAfter")
     @Mapping(target = "databaseName", source = "db")
     @Mapping(target = "dbId", ignore = true)
-    public abstract CdcEvent changeToCdcEvent(Change change);
+    public abstract CdcEventDomain changeToCdcEvent(ChangeEntity changeEntity);
 
     @Named("convertToMap")
     protected Map<String, Object> convertToMap(Object source) {

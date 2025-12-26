@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class CdcEvent {
+public class CdcEventDomain {
     private String dbId;
     private String changeId;
     private String databaseName;

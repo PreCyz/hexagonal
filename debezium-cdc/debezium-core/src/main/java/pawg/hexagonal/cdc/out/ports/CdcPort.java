@@ -1,8 +1,8 @@
 package pawg.hexagonal.cdc.out.ports;
 
-import pawg.hexagonal.cdc.domain.CdcEvent;
+import pawg.hexagonal.cdc.domain.CdcEventDomain;
 
 public interface CdcPort {
-    void processChange(CdcEvent cdcEvent);
-    CdcEvent fetchCdcEvent(String changeId);
+    void processChange(CdcEventDomain cdcEventDomain);
+    CdcEventDomain fetchCdcEvent(String changeId);
 }

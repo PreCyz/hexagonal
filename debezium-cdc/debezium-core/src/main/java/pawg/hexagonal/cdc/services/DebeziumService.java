@@ -50,27 +50,31 @@ public class DebeziumService {
     }
 
     public void handleChangeEvent(ChangeEvent<String, String> changeEvent) {
+        if (changeEvent.value() == null) {
+            log.info("Received event with null value. The event's key is {}", changeEvent.key());
+            return;
+        }
         try {
-            DebeziumEvent event = objectMapper.readValue(
+            DebeziumEventDomain event = objectMapper.readValue(
                     changeEvent.value(),
-                    DebeziumEvent.class
+                    DebeziumEventDomain.class
             );
 
-            DebeziumPayload payload = event.getPayload();
+            DebeziumPayloadDomain payload = event.getPayload();
             if (payload != null && payload.getOp() != null && !payload.getOp().isEmpty()) {
 
                 Envelope.Operation operation = Envelope.Operation.forCode(payload.getOp());
                 log.debug("Operation: [{}] changes [{}]", operation, payload);
 
-                CdcEvent cdcEvent = new CdcEvent();
-                cdcEvent.setValueBeforeChange(payload.getBefore());
-                cdcEvent.setValueAfterChange(payload.getAfter());
-                cdcEvent.setOperation(Envelope.Operation.forCode(payload.getOp()).name());
-                cdcEvent.setDatabaseName(payload.getSource().getDb());
-                cdcEvent.setTableName(payload.getSource().getTable());
-                cdcEvent.setTimestamp(LocalDateTime.now());
+                CdcEventDomain cdcEventDomain = new CdcEventDomain();
+                cdcEventDomain.setValueBeforeChange(payload.getBefore());
+                cdcEventDomain.setValueAfterChange(payload.getAfter());
+                cdcEventDomain.setOperation(Envelope.Operation.forCode(payload.getOp()).name());
+                cdcEventDomain.setDatabaseName(payload.getSource().getDb());
+                cdcEventDomain.setTableName(payload.getSource().getTable());
+                cdcEventDomain.setTimestamp(LocalDateTime.now());
 
-                cdcPort.processChange(cdcEvent);
+                cdcPort.processChange(cdcEventDomain);
                 log.debug("Operation: [{}] on [{}] saved", operation, payload);
             }
         } catch (Exception e) {
@@ -79,7 +83,7 @@ public class DebeziumService {
 
     }
 
-    public CdcEvent fetchChange(String changeId) {
+    public CdcEventDomain fetchChange(String changeId) {
         return cdcPort.fetchCdcEvent(changeId);
     }
 }
