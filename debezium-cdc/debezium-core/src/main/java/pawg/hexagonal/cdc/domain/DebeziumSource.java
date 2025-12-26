@@ -5,7 +5,7 @@ import lombok.Data;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-public class Source {
+public class DebeziumSource {
     private String version;
     private String connector;
     private String name;

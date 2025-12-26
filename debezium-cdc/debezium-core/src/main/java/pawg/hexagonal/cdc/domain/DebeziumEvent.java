@@ -6,5 +6,5 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class DebeziumEvent {
-    private Payload payload;
+    private DebeziumPayload payload;
 }

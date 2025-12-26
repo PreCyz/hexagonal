@@ -1,0 +1,13 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /cdc
+
+# spring-doc
+application:
+  springdoc:
+    title: Backend PW API
+    description: Backend starter for PW project.
+    version: @project.version@
+springdoc:
+  show-actuator: false

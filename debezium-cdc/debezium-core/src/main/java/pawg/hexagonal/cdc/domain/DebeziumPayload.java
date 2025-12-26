@@ -5,10 +5,10 @@ import lombok.Data;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-public class Payload {
+public class DebeziumPayload {
     private Object before;
     private Object after;
-    private Source source;
+    private DebeziumSource source;
     private String op; // c = create, u = update, d = delete
     private String ts_ns;
 }

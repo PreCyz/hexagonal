@@ -1,4 +1,4 @@
-package pawg.hexagonal.cdc.entities;
+package pawg.hexagonal.cdc.out.entities;
 
 import jakarta.persistence.*;
 import lombok.*;

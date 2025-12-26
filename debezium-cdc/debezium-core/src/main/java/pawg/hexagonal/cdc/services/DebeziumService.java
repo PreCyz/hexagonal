@@ -13,10 +13,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pawg.hexagonal.cdc.domain.DebeziumEvent;
-import pawg.hexagonal.cdc.out.port.CdcPort;
+import pawg.hexagonal.cdc.domain.*;
+import pawg.hexagonal.cdc.out.ports.CdcPort;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -55,12 +56,22 @@ public class DebeziumService {
                     DebeziumEvent.class
             );
 
-            if (event.getPayload() != null && event.getPayload().getOp() != null && !event.getPayload().getOp().isEmpty()) {
+            DebeziumPayload payload = event.getPayload();
+            if (payload != null && payload.getOp() != null && !payload.getOp().isEmpty()) {
 
-                Envelope.Operation operation = Envelope.Operation.forCode(event.getPayload().getOp());
-                log.debug("Operation: [{}] changes [{}]", operation, event.getPayload());
+                Envelope.Operation operation = Envelope.Operation.forCode(payload.getOp());
+                log.debug("Operation: [{}] changes [{}]", operation, payload);
 
-                cdcPort.processChange(event.getPayload());
+                CdcEvent cdcEvent = new CdcEvent();
+                cdcEvent.setValueBeforeChange(payload.getBefore());
+                cdcEvent.setValueAfterChange(payload.getAfter());
+                cdcEvent.setOperation(Envelope.Operation.forCode(payload.getOp()).name());
+                cdcEvent.setDatabaseName(payload.getSource().getDb());
+                cdcEvent.setTableName(payload.getSource().getTable());
+                cdcEvent.setTimestamp(LocalDateTime.now());
+
+                cdcPort.processChange(cdcEvent);
+                log.debug("Operation: [{}] on [{}] saved", operation, payload);
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -68,5 +79,8 @@ public class DebeziumService {
 
     }
 
+    public CdcEvent fetchChange(String changeId) {
+        return cdcPort.fetchCdcEvent(changeId);
+    }
 }
 

@@ -5,5 +5,3 @@ datasource:
   dbName: cdc
   username: cdc
   password: UaUeeUVyxsm3
-server:
-  port: 8081
