@@ -19,6 +19,7 @@ import pawg.hexagonal.cdc.out.ports.CdcPort;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -56,24 +57,33 @@ public class DebeziumService {
             return;
         }
         try {
-            DebeziumEventDomain event = objectMapper.readValue(
+            DebeziumEventDomain value = objectMapper.readValue(
                     changeEvent.value(),
                     DebeziumEventDomain.class
             );
 
-            DebeziumPayloadDomain payload = event.getPayload();
+            Optional<DebeziumEventDomain> key = Optional.ofNullable(objectMapper.readValue(
+                    changeEvent.key(),
+                    DebeziumEventDomain.class
+            ));
+
+            DebeziumPayloadDomain payload = value.getPayload();
             if (payload != null && payload.getOp() != null && !payload.getOp().isEmpty()) {
 
                 Envelope.Operation operation = Envelope.Operation.forCode(payload.getOp());
                 log.debug("Operation: [{}] changes [{}]", operation, payload);
 
-                CdcEventDomain cdcEventDomain = new CdcEventDomain();
+                final var databaseName = payload.getSource().getDb();
+                final var tableName = payload.getSource().getTable();
+                var cdcEventDomain = new CdcEventDomain();
                 cdcEventDomain.setValueBeforeChange(payload.getBefore());
                 cdcEventDomain.setValueAfterChange(payload.getAfter());
                 cdcEventDomain.setOperation(Envelope.Operation.forCode(payload.getOp()).name());
-                cdcEventDomain.setDatabaseName(payload.getSource().getDb());
-                cdcEventDomain.setTableName(payload.getSource().getTable());
+                cdcEventDomain.setDatabaseName(databaseName);
+                cdcEventDomain.setTableName(tableName);
                 cdcEventDomain.setTimestamp(LocalDateTime.now());
+                key.flatMap(it -> getChangeId(databaseName, tableName, it))
+                        .ifPresent(cdcEventDomain::setChangeId);
 
                 cdcPort.processChange(cdcEventDomain);
                 log.debug("Operation: [{}] on [{}] saved", operation, payload);
@@ -82,6 +92,17 @@ public class DebeziumService {
             log.error(e.getMessage(), e);
         }
 
+    }
+
+    private Optional<String> getChangeId(String dbName, String tableName, DebeziumEventDomain key) {
+        Optional<String> result = Optional.empty();
+        if (key.getSchema() != null && key.getPayload().getId() != null) {
+            Optional<String> idFieldName = key.getSchema().getFields().stream().map(DebeziumSchemaFieldDomain::getField).findFirst();
+            if (idFieldName.isPresent()) {
+                result = cdcPort.fetchChangeId(dbName, tableName, idFieldName.get(), key.getPayload().getId());
+            }
+        }
+        return result;
     }
 
     public CdcEventDomain fetchChange(String changeId) {

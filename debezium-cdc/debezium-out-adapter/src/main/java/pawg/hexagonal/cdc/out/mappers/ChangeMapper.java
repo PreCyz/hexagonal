@@ -15,7 +15,7 @@ public abstract class ChangeMapper {
     protected ObjectMapper objectMapper = new ObjectMapper();
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "changeId", expression = "java(UUID.randomUUID().toString())")
+    @Mapping(target = "changeId", defaultExpression = "java(UUID.randomUUID().toString())")
     @Mapping(target = "timestamp", expression = "java(LocalDateTime.now())")
     @Mapping(target = "valueAfter", source = "valueAfterChange", qualifiedByName = "convertToMap")
     @Mapping(target = "valueBefore", source = "valueBeforeChange", qualifiedByName = "convertToMap")

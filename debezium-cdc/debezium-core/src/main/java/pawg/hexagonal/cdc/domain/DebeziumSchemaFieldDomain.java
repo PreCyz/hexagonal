@@ -7,7 +7,8 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @Setter
-public class DebeziumEventDomain {
-    private DebeziumSchemaDomain schema;
-    private DebeziumPayloadDomain payload;
+public class DebeziumSchemaFieldDomain {
+    private String type;
+    private boolean optional;
+    private String field;
 }

@@ -6,6 +6,7 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class DebeziumPayloadDomain {
+    private Long id;
     private Object before;
     private Object after;
     private DebeziumSourceDomain source;

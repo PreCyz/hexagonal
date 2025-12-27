@@ -12,7 +12,7 @@ import pawg.hexagonal.cdc.out.mappers.ChangeMapper;
 import pawg.hexagonal.cdc.out.ports.CdcPort;
 import pawg.hexagonal.cdc.out.repositories.ChangeRepository;
 
-import java.util.List;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -47,5 +47,19 @@ public class CdcAdapter implements CdcPort {
                 changesInRangeDomain.endTimestamp(),
                 PageRequest.of(changesInRangeDomain.pageNumber(), changesInRangeDomain.pageSize(), Sort.by(Sort.Direction.DESC, "timestamp"))
         ));
+    }
+
+    @Override
+    public Optional<String> fetchChangeId(String dbName, String tableName, String idFieldName, Long id) {
+        log.info("Fetching changeId for databaseName: [{}], tableName: [{}] and record id: [{}]", dbName, tableName, id);
+        Set<String> changeIds = changeRepository.findChangeId(dbName, tableName, idFieldName, id.toString());
+        Optional<String> changeId = changeIds.stream().findFirst();
+        if (!changeIds.isEmpty()) {
+            log.info("ChangeId for databaseName: [{}], tableName: [{}] and record id: [{}] is: [{}]",
+                    dbName, tableName, id, changeId.get());
+        } else {
+            log.info("There is no changeId for databaseName: [{}], tableName: [{}] and record id: [{}]", dbName, tableName, id);
+        }
+        return changeId;
     }
 }
