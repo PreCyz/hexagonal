@@ -14,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pawg.hexagonal.cdc.domain.*;
+import pawg.hexagonal.cdc.out.params.ChangeIdQueryParam;
+import pawg.hexagonal.cdc.out.params.ChangesInRangeQueryParam;
 import pawg.hexagonal.cdc.out.ports.CdcPort;
 
 import java.io.IOException;
@@ -97,9 +99,15 @@ public class DebeziumService {
     private Optional<String> getChangeId(String dbName, String tableName, DebeziumEventDomain key) {
         Optional<String> result = Optional.empty();
         if (key.getSchema() != null && key.getPayload().getId() != null) {
-            Optional<String> idFieldName = key.getSchema().getFields().stream().map(DebeziumSchemaFieldDomain::getField).findFirst();
+            Optional<String> idFieldName = key.getSchema()
+                    .getFields()
+                    .stream()
+                    .map(DebeziumSchemaFieldDomain::getField)
+                    .findFirst();
             if (idFieldName.isPresent()) {
-                result = cdcPort.fetchChangeId(dbName, tableName, idFieldName.get(), key.getPayload().getId());
+                result = cdcPort.fetchChangeId(
+                        new ChangeIdQueryParam(dbName, tableName, idFieldName.get(), key.getPayload().getId())
+                );
             }
         }
         return result;
@@ -109,8 +117,8 @@ public class DebeziumService {
         return cdcPort.fetchCdcEvent(changeId);
     }
 
-    public List<CdcEventDomain> fetchChanges(ChangesInRangeDomain changesInRangeDomain) {
-        return cdcPort.fetchCdcEvents(changesInRangeDomain);
+    public List<CdcEventDomain> fetchChanges(ChangesInRangeQueryParam changesInRangeQueryParam) {
+        return cdcPort.fetchCdcEvents(changesInRangeQueryParam);
     }
 }
 

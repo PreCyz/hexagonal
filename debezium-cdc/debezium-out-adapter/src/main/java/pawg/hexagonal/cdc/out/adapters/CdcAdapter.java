@@ -6,13 +6,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pawg.hexagonal.cdc.domain.CdcEventDomain;
-import pawg.hexagonal.cdc.domain.ChangesInRangeDomain;
 import pawg.hexagonal.cdc.out.entities.ChangeEntity;
 import pawg.hexagonal.cdc.out.mappers.ChangeMapper;
+import pawg.hexagonal.cdc.out.params.ChangeIdQueryParam;
+import pawg.hexagonal.cdc.out.params.ChangesInRangeQueryParam;
 import pawg.hexagonal.cdc.out.ports.CdcPort;
 import pawg.hexagonal.cdc.out.repositories.ChangeRepository;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -41,24 +43,31 @@ public class CdcAdapter implements CdcPort {
     }
 
     @Override
-    public List<CdcEventDomain> fetchCdcEvents(ChangesInRangeDomain changesInRangeDomain) {
+    public List<CdcEventDomain> fetchCdcEvents(ChangesInRangeQueryParam changesInRangeQueryParam) {
         return changeMapper.changesToCdcEvents(changeRepository.findAllByTimestampBetween(
-                changesInRangeDomain.startTimestamp(),
-                changesInRangeDomain.endTimestamp(),
-                PageRequest.of(changesInRangeDomain.pageNumber(), changesInRangeDomain.pageSize(), Sort.by(Sort.Direction.DESC, "timestamp"))
+                changesInRangeQueryParam.startTimestamp(),
+                changesInRangeQueryParam.endTimestamp(),
+                PageRequest.of(changesInRangeQueryParam.pageNumber(), changesInRangeQueryParam.pageSize(), Sort.by(Sort.Direction.DESC, "timestamp"))
         ));
     }
 
     @Override
-    public Optional<String> fetchChangeId(String dbName, String tableName, String idFieldName, Long id) {
-        log.info("Fetching changeId for databaseName: [{}], tableName: [{}] and record id: [{}]", dbName, tableName, id);
-        Set<String> changeIds = changeRepository.findChangeId(dbName, tableName, idFieldName, id.toString());
-        Optional<String> changeId = changeIds.stream().findFirst();
-        if (!changeIds.isEmpty()) {
+    public Optional<String> fetchChangeId(ChangeIdQueryParam changeIdQueryParam) {
+        log.info("Fetching changeId for databaseName: [{}], tableName: [{}] and record id: [{}]", changeIdQueryParam.dbName(), changeIdQueryParam.tableName(), changeIdQueryParam.id());
+
+        Optional<String> changeId = changeRepository.findChangeId(
+                changeIdQueryParam.dbName(),
+                changeIdQueryParam.tableName(),
+                changeIdQueryParam.idFieldName(),
+                changeIdQueryParam.id().toString()
+        ).stream().findFirst();
+
+        if (changeId.isPresent()) {
             log.info("ChangeId for databaseName: [{}], tableName: [{}] and record id: [{}] is: [{}]",
-                    dbName, tableName, id, changeId.get());
+                    changeIdQueryParam.dbName(), changeIdQueryParam.tableName(), changeIdQueryParam.id(), changeId.get());
         } else {
-            log.info("There is no changeId for databaseName: [{}], tableName: [{}] and record id: [{}]", dbName, tableName, id);
+            log.info("There is no changeId for databaseName: [{}], tableName: [{}] and record id: [{}]",
+                    changeIdQueryParam.dbName(), changeIdQueryParam.tableName(), changeIdQueryParam.id());
         }
         return changeId;
     }
