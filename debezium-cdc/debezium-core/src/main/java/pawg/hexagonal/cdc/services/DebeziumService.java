@@ -18,6 +18,7 @@ import pawg.hexagonal.cdc.out.ports.CdcPort;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -85,6 +86,10 @@ public class DebeziumService {
 
     public CdcEventDomain fetchChange(String changeId) {
         return cdcPort.fetchCdcEvent(changeId);
+    }
+
+    public List<CdcEventDomain> fetchChanges(ChangesInRangeDomain changesInRangeDomain) {
+        return cdcPort.fetchCdcEvents(changesInRangeDomain);
     }
 }
 

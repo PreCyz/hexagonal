@@ -7,8 +7,7 @@ import pawg.hexagonal.cdc.domain.CdcEventDomain;
 import pawg.hexagonal.cdc.out.entities.ChangeEntity;
 
 import java.time.LocalDateTime;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Mapper(imports = { UUID.class, LocalDateTime.class, Map.class, TypeReference.class })
 public abstract class ChangeMapper {
@@ -34,4 +33,6 @@ public abstract class ChangeMapper {
         if (source == null) return null;
         return objectMapper.convertValue(source, new TypeReference<>() {});
     }
+
+    public abstract List<CdcEventDomain> changesToCdcEvents(List<ChangeEntity> changeEntities);
 }
