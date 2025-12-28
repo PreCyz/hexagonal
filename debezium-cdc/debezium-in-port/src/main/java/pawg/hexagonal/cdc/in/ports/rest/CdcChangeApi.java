@@ -8,16 +8,17 @@ import pawg.hexagonal.cdc.in.ports.rest.res.ChangeResponse;
 
 import java.util.List;
 
-@RequestMapping(path = "/change", produces = "application/json", consumes = "application/json")
+@RequestMapping(path = "/change", produces = "application/json")
 public interface CdcChangeApi {
 
     @GetMapping(path = "/{changeId}")
-    ResponseEntity<ChangeResponse> getChangeById(@PathVariable String changeId);
+    ResponseEntity<List<ChangeResponse>> getChangeById(@PathVariable String changeId);
 
-    @PostMapping
-    ResponseEntity<List<ChangeResponse>> getHistoryByDate(@Validated @RequestBody FetchChangesWithinDatesDto fetchChangesWithinDatesDto,
-                                                          @RequestParam(name = "page", required = false) Integer pageNumber,
-                                                          @RequestParam(name = "size", required = false) Integer pageSize
+    @PostMapping(consumes = "application/json")
+    ResponseEntity<List<ChangeResponse>> getHistoryByDate(
+            @Validated @RequestBody FetchChangesWithinDatesDto fetchChangesWithinDatesDto,
+            @RequestParam(name = "page", required = false, defaultValue = "0") Integer pageNumber,
+            @RequestParam(name = "size", required = false, defaultValue = "20") Integer pageSize
     );
 
 }

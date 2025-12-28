@@ -1,4 +1,4 @@
-package pawg.hexagonal.cdc.domain;
+package pawg.hexagonal.cdc.debezium;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @Setter
-public class DebeziumEventDomain {
-    private DebeziumSchemaDomain schema;
-    private DebeziumPayloadDomain payload;
+public class DebeziumEvent {
+    private DebeziumSchema schema;
+    private DebeziumPayload payload;
 }

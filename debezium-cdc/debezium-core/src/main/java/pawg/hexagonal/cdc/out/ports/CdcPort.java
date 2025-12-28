@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface CdcPort {
     void processChange(CdcEventDomain cdcEventDomain);
-    CdcEventDomain fetchCdcEvent(String changeId);
+    List<CdcEventDomain> fetchCdcEvent(String changeId);
     List<CdcEventDomain> fetchCdcEvents(ChangesInRangeQueryParam changesInRangeQueryParam);
     Optional<String> fetchChangeId(ChangeIdQueryParam changeIdQueryParam);
 }

@@ -13,8 +13,7 @@ import pawg.hexagonal.cdc.out.params.ChangesInRangeQueryParam;
 import pawg.hexagonal.cdc.out.ports.CdcPort;
 import pawg.hexagonal.cdc.out.repositories.ChangeRepository;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -36,24 +35,32 @@ public class CdcAdapter implements CdcPort {
     }
 
     @Override
-    public CdcEventDomain fetchCdcEvent(final String changeId) {
-        return changeRepository.findChangeByChangeId(changeId)
-                .map(changeMapper::changeToCdcEvent)
-                .orElseThrow(() -> new IllegalArgumentException("No change with Id " + changeId));
+    public List<CdcEventDomain> fetchCdcEvent(final String changeId) {
+        return changeMapper.changesToCdcEvents(changeRepository.findChangeByChangeId(changeId));
     }
 
     @Override
     public List<CdcEventDomain> fetchCdcEvents(ChangesInRangeQueryParam changesInRangeQueryParam) {
-        return changeMapper.changesToCdcEvents(changeRepository.findAllByTimestampBetween(
+        Set<String> operations = changesInRangeQueryParam.operations();
+        if (operations == null || operations.isEmpty()) {
+            operations = Set.of("CREATE", "UPDATE", "DELETE");
+        }
+        return changeMapper.changesToCdcEvents(changeRepository.findAllByTimestampBetweenAndOperationIn(
                 changesInRangeQueryParam.startTimestamp(),
                 changesInRangeQueryParam.endTimestamp(),
-                PageRequest.of(changesInRangeQueryParam.pageNumber(), changesInRangeQueryParam.pageSize(), Sort.by(Sort.Direction.DESC, "timestamp"))
-        ));
+                operations,
+                PageRequest.of(
+                        changesInRangeQueryParam.pageNumber(),
+                        changesInRangeQueryParam.pageSize(),
+                        Sort.by(Sort.Direction.DESC, "timestamp")
+                )
+        ).getContent());
     }
 
     @Override
     public Optional<String> fetchChangeId(ChangeIdQueryParam changeIdQueryParam) {
-        log.info("Fetching changeId for databaseName: [{}], tableName: [{}] and record id: [{}]", changeIdQueryParam.dbName(), changeIdQueryParam.tableName(), changeIdQueryParam.id());
+        log.info("Fetching changeId for databaseName: [{}], tableName: [{}] and record id: [{}]",
+                changeIdQueryParam.dbName(), changeIdQueryParam.tableName(), changeIdQueryParam.id());
 
         Optional<String> changeId = changeRepository.findChangeId(
                 changeIdQueryParam.dbName(),

@@ -24,20 +24,14 @@ public class CdcChangeController implements CdcChangeApi {
     private final ChangeRequestMapper requestMapper;
 
     @Override
-    public ResponseEntity<ChangeResponse> getChangeById(String changeId) {
-        ChangeResponse changeResponse = responseMapper.cdcEventToChangeResponse(debeziumService.fetchChange(changeId));
-        return ResponseEntity.ok(changeResponse);
+    public ResponseEntity<List<ChangeResponse>> getChangeById(String changeId) {
+        return ResponseEntity.ok(responseMapper.cdcEventsToChangeResponses(debeziumService.fetchChanges(changeId)));
     }
 
     @Override
     public ResponseEntity<List<ChangeResponse>> getHistoryByDate(
             FetchChangesWithinDatesDto fetchChangesWithinDatesDto, Integer pageNumber, Integer pageSize
     ) {
-        if (pageNumber == null || pageSize == null) {
-            pageNumber = 0;
-            pageSize = 20;
-            log.info("POST getHistoryByDate: pageNumber={}, pageSize={}", pageNumber, pageSize);
-        }
         return ResponseEntity.ok(
                 responseMapper.cdcEventsToChangeResponses(debeziumService.fetchChanges(
                         requestMapper.changeRequestToChangeRequestDomain(fetchChangesWithinDatesDto, pageNumber, pageSize)

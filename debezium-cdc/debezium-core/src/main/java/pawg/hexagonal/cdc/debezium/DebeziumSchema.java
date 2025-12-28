@@ -1,4 +1,4 @@
-package pawg.hexagonal.cdc.domain;
+package pawg.hexagonal.cdc.debezium;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
@@ -9,9 +9,10 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @Setter
-public class DebeziumSchemaDomain {
+public class DebeziumSchema {
     private String type;
-    private List<DebeziumSchemaFieldDomain> fields;
+    private List<DebeziumSchemaField> fields;
     private boolean optional;
     private String name;
+    private String version;
 }
