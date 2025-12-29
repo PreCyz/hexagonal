@@ -15,6 +15,5 @@ target/
 *.ipr
 
 ### drawio ###
-*.drawio.bkp
-
+diagrams/*.drawio.bkp
 diagrams/*.png
