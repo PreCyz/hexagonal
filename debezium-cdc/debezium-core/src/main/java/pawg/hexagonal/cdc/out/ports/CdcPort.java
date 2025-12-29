@@ -1,15 +1,15 @@
 package pawg.hexagonal.cdc.out.ports;
 
-import pawg.hexagonal.cdc.domain.CdcEventDomain;
-import pawg.hexagonal.cdc.out.params.ChangeIdQueryParam;
-import pawg.hexagonal.cdc.out.params.ChangesInRangeQueryParam;
+import pawg.hexagonal.cdc.out.dto.ChangeIdQueryParam;
+import pawg.hexagonal.cdc.out.dto.ChangesInRangeQueryParam;
 
 import java.util.List;
 import java.util.Optional;
+import pawg.hexagonal.cdc.out.dto.EventOutDto;
 
 public interface CdcPort {
-    void processChange(CdcEventDomain cdcEventDomain);
-    List<CdcEventDomain> fetchCdcEvent(String changeId);
-    List<CdcEventDomain> fetchCdcEvents(ChangesInRangeQueryParam changesInRangeQueryParam);
+    void processChange(EventOutDto eventOutDto);
+    List<EventOutDto> fetchEventByChangeId(String changeId);
+    List<EventOutDto> fetchCdcEvents(ChangesInRangeQueryParam changesInRangeQueryParam);
     Optional<String> fetchChangeId(ChangeIdQueryParam changeIdQueryParam);
 }

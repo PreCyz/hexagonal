@@ -1,4 +1,4 @@
-package pawg.hexagonal.cdc.out.params;
+package pawg.hexagonal.cdc.out.dto;
 
 import java.time.LocalDateTime;
 import java.util.Set;

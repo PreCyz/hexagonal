@@ -14,8 +14,6 @@ public class CdcConfiguration {
                                                               @Value("${datasource.password}") String customerDbPassword,
                                                               @Value("${datasource.dbName}") String customerDbName) {
 
-        System.out.println("Łączę jako: " + customerDbUsername + " do " + customerDbHost);
-
         return io.debezium.config.Configuration.create()
                 .with("name", "backend-mysql-connector")
                 .with("connector.class", "io.debezium.connector.mysql.MySqlConnector")

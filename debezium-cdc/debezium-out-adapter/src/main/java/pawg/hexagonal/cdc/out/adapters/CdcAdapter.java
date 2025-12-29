@@ -5,11 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import pawg.hexagonal.cdc.domain.CdcEventDomain;
+import pawg.hexagonal.cdc.out.dto.EventOutDto;
 import pawg.hexagonal.cdc.out.entities.ChangeEntity;
 import pawg.hexagonal.cdc.out.mappers.ChangeMapper;
-import pawg.hexagonal.cdc.out.params.ChangeIdQueryParam;
-import pawg.hexagonal.cdc.out.params.ChangesInRangeQueryParam;
+import pawg.hexagonal.cdc.out.dto.ChangeIdQueryParam;
+import pawg.hexagonal.cdc.out.dto.ChangesInRangeQueryParam;
 import pawg.hexagonal.cdc.out.ports.CdcPort;
 import pawg.hexagonal.cdc.out.repositories.ChangeRepository;
 
@@ -24,9 +24,9 @@ public class CdcAdapter implements CdcPort {
     private final ChangeMapper changeMapper;
 
     @Override
-    public void processChange(CdcEventDomain cdcEventDomain) {
+    public void processChange(EventOutDto eventOutDto) {
         try {
-            ChangeEntity changeEntity = changeMapper.cdcEventToChange(cdcEventDomain);
+            ChangeEntity changeEntity = changeMapper.eventOutDtoToChange(eventOutDto);
             changeRepository.save(changeEntity);
             log.info("Change {} has been saved", changeEntity);
         } catch (IllegalArgumentException e) {
@@ -35,17 +35,17 @@ public class CdcAdapter implements CdcPort {
     }
 
     @Override
-    public List<CdcEventDomain> fetchCdcEvent(final String changeId) {
-        return changeMapper.changesToCdcEvents(changeRepository.findChangeByChangeId(changeId));
+    public List<EventOutDto> fetchEventByChangeId(final String changeId) {
+        return changeMapper.changeListToEventOutDtoList(changeRepository.findChangeByChangeId(changeId));
     }
 
     @Override
-    public List<CdcEventDomain> fetchCdcEvents(ChangesInRangeQueryParam changesInRangeQueryParam) {
+    public List<EventOutDto> fetchCdcEvents(ChangesInRangeQueryParam changesInRangeQueryParam) {
         Set<String> operations = changesInRangeQueryParam.operations();
         if (operations == null || operations.isEmpty()) {
             operations = Set.of("CREATE", "UPDATE", "DELETE");
         }
-        return changeMapper.changesToCdcEvents(changeRepository.findAllByTimestampBetweenAndOperationIn(
+        return changeMapper.changeListToEventOutDtoList(changeRepository.findAllByTimestampBetweenAndOperationIn(
                 changesInRangeQueryParam.startTimestamp(),
                 changesInRangeQueryParam.endTimestamp(),
                 operations,

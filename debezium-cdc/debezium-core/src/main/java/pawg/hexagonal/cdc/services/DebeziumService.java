@@ -15,8 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pawg.hexagonal.cdc.debezium.*;
 import pawg.hexagonal.cdc.domain.CdcEventDomain;
-import pawg.hexagonal.cdc.out.params.ChangeIdQueryParam;
-import pawg.hexagonal.cdc.out.params.ChangesInRangeQueryParam;
+import pawg.hexagonal.cdc.out.dto.ChangeIdQueryParam;
+import pawg.hexagonal.cdc.out.dto.ChangesInRangeQueryParam;
+import pawg.hexagonal.cdc.out.mappers.CdcEventMapper;
 import pawg.hexagonal.cdc.out.ports.CdcPort;
 
 import java.io.IOException;
@@ -35,6 +36,7 @@ public class DebeziumService {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final Configuration connectorConfiguration;
     private final CdcPort cdcPort;
+    private final CdcEventMapper cdcEventMapper;
     private DebeziumEngine<ChangeEvent<String, String>> debeziumEngine;
 
     @PostConstruct
@@ -88,7 +90,7 @@ public class DebeziumService {
                 key.flatMap(it -> getChangeId(databaseName, tableName, it))
                         .ifPresent(cdcEventDomain::setChangeId);
 
-                cdcPort.processChange(cdcEventDomain);
+                cdcPort.processChange(cdcEventMapper.cdcEventDomainToEventOutDto(cdcEventDomain));
                 log.info("Operation: [{}] on [{}] saved", operation, payload);
             }
         } catch (Exception e) {
@@ -115,11 +117,11 @@ public class DebeziumService {
     }
 
     public List<CdcEventDomain> fetchChanges(String changeId) {
-        return cdcPort.fetchCdcEvent(changeId);
+        return cdcEventMapper.eventOutDtoListToCdcEventDomainList(cdcPort.fetchEventByChangeId(changeId));
     }
 
     public List<CdcEventDomain> fetchChanges(ChangesInRangeQueryParam changesInRangeQueryParam) {
-        return cdcPort.fetchCdcEvents(changesInRangeQueryParam);
+        return cdcEventMapper.eventOutDtoListToCdcEventDomainList(cdcPort.fetchCdcEvents(changesInRangeQueryParam));
     }
 }
 
