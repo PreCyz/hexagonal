@@ -45,6 +45,7 @@ spring:
       mode: always
       continue-on-error: true
       platform: mysql
+      data-locations: classpath:schema.sql
   jpa:
     properties:
       hibernate:
@@ -59,6 +60,7 @@ spring:
     hibernate:
       ddl-auto: update
     open-in-view: off
+    defer-datasource-initialization: true
 # Actuator setup
 management:
   endpoints:

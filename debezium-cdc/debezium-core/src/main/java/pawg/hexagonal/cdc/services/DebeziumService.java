@@ -1,60 +1,31 @@
 package pawg.hexagonal.cdc.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.debezium.config.Configuration;
 import io.debezium.data.Envelope;
 import io.debezium.engine.ChangeEvent;
-import io.debezium.engine.DebeziumEngine;
-import io.debezium.engine.format.Json;
-import io.debezium.engine.format.KeyValueChangeEventFormat;
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pawg.hexagonal.cdc.debezium.*;
+import pawg.hexagonal.cdc.debezium.DebeziumEvent;
+import pawg.hexagonal.cdc.debezium.DebeziumPayload;
+import pawg.hexagonal.cdc.debezium.DebeziumSchemaField;
 import pawg.hexagonal.cdc.domain.CdcEventDomain;
 import pawg.hexagonal.cdc.out.dto.ChangeIdQueryParam;
 import pawg.hexagonal.cdc.out.dto.ChangesInRangeQueryParam;
 import pawg.hexagonal.cdc.out.mappers.CdcEventMapper;
 import pawg.hexagonal.cdc.out.ports.CdcPort;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
 public class DebeziumService {
-
-    private final ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private final Configuration connectorConfiguration;
     private final CdcPort cdcPort;
     private final CdcEventMapper cdcEventMapper;
-    private DebeziumEngine<ChangeEvent<String, String>> debeziumEngine;
-
-    @PostConstruct
-    private void start() {
-        debeziumEngine = DebeziumEngine.create(KeyValueChangeEventFormat.of(Json.class, Json.class))
-                .using(connectorConfiguration.asProperties())
-                .notifying(this::handleChangeEvent)
-                .build();
-
-        executor.execute(debeziumEngine);
-    }
-
-    @PreDestroy
-    private void stop() throws IOException {
-        if (debeziumEngine != null) {
-            debeziumEngine.close();
-        }
-    }
 
     public void handleChangeEvent(ChangeEvent<String, String> changeEvent) {
         if (changeEvent.value() == null) {
@@ -67,10 +38,13 @@ public class DebeziumService {
                     DebeziumEvent.class
             );
 
-            Optional<DebeziumEvent> key = Optional.ofNullable(objectMapper.readValue(
-                    changeEvent.key(),
-                    DebeziumEvent.class
-            ));
+            Optional<DebeziumEvent> key = Optional.empty();
+            if (changeEvent.key() != null) {
+                key = Optional.ofNullable(objectMapper.readValue(
+                        changeEvent.key(),
+                        DebeziumEvent.class
+                ));
+            }
 
             DebeziumPayload payload = value.getPayload();
             if (payload != null && payload.getOperation() != null && !payload.getOperation().isEmpty()) {

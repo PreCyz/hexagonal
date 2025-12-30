@@ -1,4 +1,4 @@
-CREATE TABLE `cdc`.`.database_history`
+CREATE TABLE `cdc`.`database_history`
 (
     `id`                VARCHAR(36) NOT NULL,
     `history_data`      MEDIUMTEXT,
