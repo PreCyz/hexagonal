@@ -1,5 +1,22 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /cdc
+
+# spring-doc
+application:
+  springdoc:
+    title: Hexagonal API
+    description: Hexagonal POC.
+    version: @project.version@
+springdoc:
+  show-actuator: false
+
 # The SQL dialect makes Hibernate generate better SQL for the chosen database
 spring:
+  profiles:
+    include:
+      - debezium
   datasource:
     url: jdbc:mysql://localhost:3306/cdc?createDatabaseIfNotExist=true&sslMode=PREFERRED&serverTimeZone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
     username: react
@@ -31,7 +48,7 @@ spring:
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
+        #        dialect: org.hibernate.dialect.MySQLDialect
         jdbc:
           lob:
             non_contextual_creation: true
@@ -41,3 +58,15 @@ spring:
     # Hibernate ddl auto (create, create-drop, validate, update)
     hibernate:
       ddl-auto: update
+    open-in-view: off
+# Actuator setup
+management:
+  endpoints:
+    web:
+      base-path: /mgm
+      exposure:
+        include: health,beans,logs,env
+      path-mapping:
+        health: status
+  server:
+    port: 8070

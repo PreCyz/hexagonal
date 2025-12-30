@@ -6,7 +6,7 @@
     <parent>
         <groupId>pawg.hexagonal</groupId>
         <artifactId>debezium-cdc</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
 
     <groupId>pawg.hexagonal.cdc</groupId>
@@ -24,7 +24,7 @@
         <dependency>
             <groupId>pawg.hexagonal.cdc</groupId>
             <artifactId>debezium-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>

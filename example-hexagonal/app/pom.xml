@@ -5,7 +5,7 @@
     <parent>
         <groupId>pawg.hexagonal</groupId>
         <artifactId>example-hexagonal</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <groupId>pawg.hexagonal.app</groupId>
@@ -21,12 +21,12 @@
         <dependency>
             <groupId>pawg.hexagonal</groupId>
             <artifactId>core</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>pawg.hexagonal</groupId>
             <artifactId>in-port</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${revision}</version>
         </dependency>
 
 

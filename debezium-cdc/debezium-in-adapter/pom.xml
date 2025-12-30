@@ -6,7 +6,7 @@
     <parent>
         <groupId>pawg.hexagonal</groupId>
         <artifactId>debezium-cdc</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -17,12 +17,12 @@
         <dependency>
             <groupId>pawg.hexagonal.cdc</groupId>
             <artifactId>debezium-in-port</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>pawg.hexagonal.cdc</groupId>
             <artifactId>debezium-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

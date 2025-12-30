@@ -6,7 +6,7 @@
     <parent>
         <groupId>pawg.hexagonal</groupId>
         <artifactId>debezium-cdc</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -29,6 +29,10 @@
         <dependency>
             <groupId>io.debezium</groupId>
             <artifactId>debezium-connector-mysql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.debezium</groupId>
+            <artifactId>debezium-storage-jdbc</artifactId>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>

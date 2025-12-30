@@ -1,0 +1,37 @@
+# The SQL dialect makes Hibernate generate better SQL for the chosen database
+debezium:
+  enabled: true
+  datasource:
+    hostname: localhost
+    port: 3306
+    dbname: cdc
+    user: cdc
+    password: UaUeeUVyxsm3
+    url: jdbc:mysql://${debezium.datasource.hostname}:${debezium.datasource.port}/${debezium.datasource.dbname}
+  configuration:
+    name: backend-mysql-connector
+    topic.prefix: backend-cdc
+    connector.class: io.debezium.connector.mysql.MySqlConnector
+    database.server.id: 10181
+    database.hostname: ${debezium.datasource.hostname}
+    database.port: ${debezium.datasource.port}
+    database.user: ${debezium.datasource.user}
+    database.password: ${debezium.datasource.password}
+    database.exclude.list: cdc
+    offset.storage: io.debezium.storage.jdbc.offset.JdbcOffsetBackingStore
+    offset.storage.jdbc.url: ${debezium.datasource.url}
+    offset.storage.jdbc.user: ${debezium.datasource.user}
+    offset.storage.jdbc.password: ${debezium.datasource.password}
+    offset.storage.jdbc.table.create: false
+    offset.storage.jdbc.table.name: offset_storage
+    offset.flush.interval.ms: 1000
+    include.schema.changes: false
+    snapshot.mode: initial
+    snapshot.locking.mode: none
+    schema.history.internal: io.debezium.storage.jdbc.history.JdbcSchemaHistory
+    schema.history.internal.jdbc.url: ${debezium.datasource.url}
+    schema.history.internal.jdbc.user: ${debezium.datasource.user}
+    schema.history.internal.jdbc.password: ${debezium.datasource.password}
+    schema.history.internal.jdbc.table.create: false
+    schema.history.internal.jdbc.table.name: database_history
+    driver.connectionTimeZone: UTC

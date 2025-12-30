@@ -1,7 +1,0 @@
-# The SQL dialect makes Hibernate generate better SQL for the chosen database
-datasource:
-  hostname: localhost
-  port: 3306
-  dbName: cdc
-  username: cdc
-  password: UaUeeUVyxsm3
