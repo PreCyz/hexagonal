@@ -1,5 +1,6 @@
 package pawg.hexagonal.cdc.in.adapters.rest;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,22 +11,20 @@ import pawg.hexagonal.cdc.in.mappers.ChangeResponseMapper;
 import pawg.hexagonal.cdc.in.ports.rest.CdcChangeApi;
 import pawg.hexagonal.cdc.in.ports.rest.req.FetchChangesWithinDatesDto;
 import pawg.hexagonal.cdc.in.ports.rest.res.ChangeResponse;
-import pawg.hexagonal.cdc.services.DebeziumService;
-
-import java.util.List;
+import pawg.hexagonal.cdc.services.ChangeService;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
 @RestController
 public class CdcChangeController implements CdcChangeApi {
 
-    private final DebeziumService debeziumService;
+    private final ChangeService changeService;
     private final ChangeResponseMapper responseMapper;
     private final ChangeRequestMapper requestMapper;
 
     @Override
     public ResponseEntity<List<ChangeResponse>> getChangeById(String changeId) {
-        return ResponseEntity.ok(responseMapper.cdcEventsToChangeResponses(debeziumService.fetchChanges(changeId)));
+        return ResponseEntity.ok(responseMapper.cdcEventsToChangeResponses(changeService.fetchChanges(changeId)));
     }
 
     @Override
@@ -33,7 +32,7 @@ public class CdcChangeController implements CdcChangeApi {
             FetchChangesWithinDatesDto fetchChangesWithinDatesDto, Integer pageNumber, Integer pageSize
     ) {
         return ResponseEntity.ok(
-                responseMapper.cdcEventsToChangeResponses(debeziumService.fetchChanges(
+                responseMapper.cdcEventsToChangeResponses(changeService.fetchChanges(
                         requestMapper.changeRequestToChangeRequestDomain(fetchChangesWithinDatesDto, pageNumber, pageSize)
                 ))
         );

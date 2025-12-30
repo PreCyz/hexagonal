@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import pawg.hexagonal.cdc.debezium.DebeziumEvent;
 import pawg.hexagonal.cdc.debezium.DebeziumPayload;
 import pawg.hexagonal.cdc.debezium.DebeziumSchemaField;
@@ -19,11 +17,10 @@ import pawg.hexagonal.cdc.out.dto.ChangesInRangeQueryParam;
 import pawg.hexagonal.cdc.out.mappers.CdcEventMapper;
 import pawg.hexagonal.cdc.out.ports.CdcPort;
 
-@Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 @Slf4j
-public class DebeziumService {
-    private final ObjectMapper objectMapper = new ObjectMapper();
+public class ChangeService {
+    private final ObjectMapper objectMapper;
     private final CdcPort cdcPort;
     private final CdcEventMapper cdcEventMapper;
 

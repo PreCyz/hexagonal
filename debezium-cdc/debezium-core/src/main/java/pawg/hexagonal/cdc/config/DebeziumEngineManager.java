@@ -24,7 +24,7 @@ public class DebeziumEngineManager implements SmartLifecycle {
     @Autowired
     public DebeziumEngineManager(DebeziumEngine<ChangeEvent<String, String>> engine) {
         this.engine = engine;
-        executor = Executors.newSingleThreadExecutor();
+        executor = Executors.newVirtualThreadPerTaskExecutor();
     }
 
     @Override
