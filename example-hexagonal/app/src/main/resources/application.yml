@@ -1,0 +1,60 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /user-app
+
+# spring-doc
+application:
+  springdoc:
+    title: Example Data API
+    description: Example data.
+    version: @project.version@
+springdoc:
+  show-actuator: true
+
+spring:
+  application:
+    name: exampleApp
+
+# The SQL dialect makes Hibernate generate better SQL for the chosen database
+  datasource:
+    url: jdbc:ojp[localhost:1059]_mysql://host.docker.internal:3306/example?createDatabaseIfNotExist=true&sslMode=PREFERRED&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
+#    url: jdbc:ojp[localhost:1059]:mysql://host.docker.internal:3306/backend?ojpBackendHost=host.docker.internal&ojpBackendPort=3306&createDatabaseIfNotExist=true&sslMode=PREFERRED&serverTimezone=UTC
+    username: hexample
+    password: hexample
+#    driver-class-name: org.openjproxy.jdbc.Driver
+#    type: org.springframework.jdbc.datasource.SimpleDriverDataSource
+  sql:
+    init:
+      mode: always
+      continue-on-error: true
+      platform: mysql
+      # if you want ot upload test data create data.sql. if below is uncommented then data.sql will be executed
+#      schema-locations: classpath:/sql/schema-${spring.sql.init.platform}.sql
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
+          time_zone: UTC
+        format_sql: true
+    show-sql: true
+    generate-ddl: true
+    # Hibernate ddl auto (create, create-drop, validate, update)
+    hibernate:
+      ddl-auto: none
+
+# OJP server-side connection pool settings (forwarded to the OJP server via gRPC)
+ojp:
+  connection:
+    pool:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+  # gRPC transport settings (increase for large LOB data)
+  grpc:
+    max-inbound-message-size: 16777216

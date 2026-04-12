@@ -6,30 +6,46 @@
         <groupId>pawg.hexagonal</groupId>
         <artifactId>example-hexagonal</artifactId>
         <version>${revision}</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
-    <groupId>pawg.hexagonal.app</groupId>
+    <groupId>pawg.hexagonal.example</groupId>
     <artifactId>app</artifactId>
     <name>app</name>
     <description>app</description>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>pawg.hexagonal</groupId>
+            <groupId>pawg.hexagonal.example</groupId>
             <artifactId>core</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>
-            <groupId>pawg.hexagonal</groupId>
+            <groupId>pawg.hexagonal.example</groupId>
             <artifactId>in-port</artifactId>
             <version>${revision}</version>
         </dependency>
-
+        <dependency>
+            <groupId>pawg.hexagonal.example</groupId>
+            <artifactId>in-adapter</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>pawg.hexagonal.example</groupId>
+            <artifactId>out-adapter</artifactId>
+            <version>${revision}</version>
+        </dependency>
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

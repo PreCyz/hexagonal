@@ -7,9 +7,9 @@
         <groupId>pawg.hexagonal</groupId>
         <artifactId>example-hexagonal</artifactId>
         <version>${revision}</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <groupId>pawg.hexagonal.example</groupId>
     <artifactId>core</artifactId>
     <dependencies>
         <dependency>
@@ -19,6 +19,10 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
         </dependency>
     </dependencies>
 

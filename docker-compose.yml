@@ -1,0 +1,12 @@
+services:
+  ojp:
+    image: rrobetti/ojp:0.4.1-beta
+    container_name: ojp-server
+    ports:
+      - "1059:1059"
+    volumes:
+      - ./ojp-libs:/opt/ojp/ojp-libs
+    environment:
+      - OJP_BACKEND_URL=jdbc:mysql://host.docker.internal:3306/backend?createDatabaseIfNotExist=true&sslMode=PREFERRED&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
+      - OJP_BACKEND_USER=react
+      - OJP_BACKEND_PASS=MysqL12!@
