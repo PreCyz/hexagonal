@@ -1,13 +1,14 @@
 package pawg.hexagonal.cdc.out.mappers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import pawg.hexagonal.cdc.out.dto.EventOutDto;
 import pawg.hexagonal.cdc.out.entities.ChangeEntity;
-
-import java.time.LocalDateTime;
-import java.util.*;
 
 @Mapper(imports = { UUID.class, LocalDateTime.class, Map.class, TypeReference.class })
 public interface ChangeMapper {
