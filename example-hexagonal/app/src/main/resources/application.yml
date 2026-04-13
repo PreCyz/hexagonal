@@ -24,13 +24,7 @@ spring:
     password: hexample
 #    driver-class-name: org.openjproxy.jdbc.Driver
 #    type: org.springframework.jdbc.datasource.SimpleDriverDataSource
-#  sql:
-#    init:
-#      mode: always
-#      continue-on-error: true
-#      platform: mysql
-      # if you want ot upload test data create data.sql. if below is uncommented then data.sql will be executed
-#      schema-locations: classpath:/sql/schema-${spring.sql.init.platform}.sql
+
   jpa:
     properties:
       hibernate:
@@ -45,19 +39,3 @@ spring:
     # Hibernate ddl auto (none, create, create-drop, validate, update)
     hibernate:
       ddl-auto: update
-
-# OJP server-side connection pool settings (forwarded to the OJP server via gRPC)
-#ojp:
-#  connection:
-#    pool:
-#      maximum-pool-size: 20
-#      minimum-idle: 5
-#      connection-timeout: 30000
-#      idle-timeout: 600000
-#      max-lifetime: 1800000
-#  # gRPC transport settings (increase for large LOB data)
-#  grpc:
-#    max-inbound-message-size: 16777216
-#  loadaware:
-#    selection:
-#      enabled: true
