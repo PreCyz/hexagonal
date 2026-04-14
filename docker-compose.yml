@@ -1,6 +1,6 @@
 services:
   ojp-server-1:
-    image: rrobetti/ojp:0.4.1-beta
+    image: rrobetti/ojp:0.4.3-beta
     container_name: ojp-server-1
     restart: unless-stopped
     ports:
@@ -30,6 +30,7 @@ services:
       OJP_SERVER_CIRCUITBREAKERTHRESHOLD: 3
     volumes:
       - ojp-logs:/var/log/ojp
+      - ./ojp-libs:/opt/ojp/ojp-libs
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9159/metrics"]
       interval: 30s
@@ -38,7 +39,7 @@ services:
       start_period: 40s
 
   ojp-server-2:
-    image: rrobetti/ojp:0.4.1-beta
+    image: rrobetti/ojp:0.4.3-beta
     container_name: ojp-server-2
     restart: unless-stopped
     ports:
@@ -68,6 +69,7 @@ services:
       OJP_SERVER_CIRCUITBREAKERTHRESHOLD: 3
     volumes:
       - ojp-logs:/var/log/ojp
+      - ./ojp-libs:/opt/ojp/ojp-libs
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:9159/metrics" ]
       interval: 30s
@@ -76,7 +78,7 @@ services:
       start_period: 40s
 
   ojp-server-3:
-    image: rrobetti/ojp:0.4.1-beta
+    image: rrobetti/ojp:0.4.3-beta
     container_name: ojp-server-3
     restart: unless-stopped
     ports:
@@ -106,6 +108,7 @@ services:
       OJP_SERVER_CIRCUITBREAKERTHRESHOLD: 3
     volumes:
       - ojp-logs:/var/log/ojp
+      - ./ojp-libs:/opt/ojp/ojp-libs
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:9159/metrics" ]
       interval: 30s
