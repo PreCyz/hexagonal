@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class AppApplication {
 
     static void main(String[] args) {
+        System.setProperty("org.slf4j.simpleLogger.log.org.openjproxy.grpc.client", "debug");
         SpringApplication.run(AppApplication.class, args);
     }
 
