@@ -1,0 +1,9 @@
+spring:
+# The SQL dialect makes Hibernate generate better SQL for the chosen database
+  datasource:
+#    url: jdbc:ojp[localhost:1059,localhost:1060,localhost:1061]_mysql://host.docker.internal:3306/example?createDatabaseIfNotExist=true&sslMode=PREFERRED&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
+    url: jdbc:ojp[localhost:1059]_mysql://host.docker.internal:3306/example?createDatabaseIfNotExist=true&sslMode=PREFERRED&serverTimezone=UTC
+    username: hexample
+    password: hexample
+#    driver-class-name: org.openjproxy.jdbc.Driver
+#    type: org.springframework.jdbc.datasource.SimpleDriverDataSource

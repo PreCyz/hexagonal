@@ -1,12 +1,11 @@
 package pawg.hexagonal.example.services;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pawg.hexagonal.example.domain.UserDomain;
 import pawg.hexagonal.example.out.port.DBPort;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -25,5 +24,10 @@ public class BusinessCaseService implements BusinessCase {
     public Optional<UserDomain> saveUserDomain(UserDomain userDomain) {
         validate(userDomain);
         return dbPort.createData(userDomain);
+    }
+
+    @Override
+    public Optional<UserDomain> fetchById(Long id) {
+        return dbPort.findById(id);
     }
 }

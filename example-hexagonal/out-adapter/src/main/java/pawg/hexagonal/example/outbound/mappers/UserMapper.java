@@ -13,8 +13,8 @@ public interface UserMapper {
     @Mapping(target = "age", ignore = true)
     UserEntity userDomainToEntity(UserDomain userDomain);
 
-
-    @Mapping(target = "updateDateTime", ignore = true)
-    @Mapping(target = "createDateTime", ignore = true)
-    UserDomain entityToUserDomain(UserEntity saved);
+    @Mapping(target = "updateDateTime", source = "updatedAt")
+    @Mapping(target = "createDateTime", source = "createdAt")
+    @Mapping(target = "name", source = "username")
+    UserDomain entityToUserDomain(UserEntity userEntity);
 }

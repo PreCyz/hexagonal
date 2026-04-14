@@ -1,18 +1,21 @@
 package pawg.hexagonal.example.inbound.rest;
 
 import jakarta.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import pawg.hexagonal.example.domain.UserDomain;
-import pawg.hexagonal.example.inbound.dto.*;
+import pawg.hexagonal.example.inbound.dto.CreateUserRequest;
+import pawg.hexagonal.example.inbound.dto.CreateUserResponse;
+import pawg.hexagonal.example.inbound.dto.GetUserResponse;
 import pawg.hexagonal.example.inbound.mappers.UserRequestMapper;
 import pawg.hexagonal.example.inbound.port.rest.UserPort;
 import pawg.hexagonal.example.services.BusinessCase;
-
-import java.util.*;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
@@ -34,8 +37,12 @@ public class UserController implements UserPort {
     }
 
     @Override
-    public ResponseEntity<GetUserResponse> getData(int page, int size) {
-        return ResponseEntity.ok(new GetUserResponse(new ArrayList<>()));
+    public ResponseEntity<GetUserResponse> findUser(Long id, int page, int size) {
+        return ResponseEntity.ok(new GetUserResponse(
+                businessCase.fetchById(id)
+                            .map(it -> userRequestMapper.userDomainToResponseList(List.of(it)))
+                            .orElseGet(ArrayList::new)
+        ));
     }
 
     @Override
