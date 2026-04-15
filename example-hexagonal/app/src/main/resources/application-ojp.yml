@@ -7,3 +7,16 @@ spring:
     password: hexample
 #    driver-class-name: org.openjproxy.jdbc.Driver
 #    type: org.springframework.jdbc.datasource.SimpleDriverDataSource
+
+ojp:
+  loadaware:
+    selection:
+      enabled: true
+  health:
+    check:
+      interval: 10s
+      threshold: 10s
+      timeout: 2s
+  redistribution:
+    idleRebalanceFraction: 1.0
+    maxClosePerRecovery: 99
