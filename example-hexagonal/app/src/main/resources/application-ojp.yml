@@ -14,9 +14,12 @@ ojp:
       enabled: true
   health:
     check:
-      interval: 10s
-      threshold: 10s
+      interval: 20s
+      threshold: 20s
       timeout: 2s
   redistribution:
     idleRebalanceFraction: 1.0
-    maxClosePerRecovery: 99
+    maxClosePerRecovery: 100
+  multinode:
+    retryAttempts: -1
+    retryDelayMs: 5000

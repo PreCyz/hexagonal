@@ -29,7 +29,7 @@
         <mapstruct.version>1.6.3</mapstruct.version>
         <lombok.version>1.18.44</lombok.version>
         <springdoc.openapi.version>3.0.0</springdoc.openapi.version>
-        <ojp.version>0.4.3-beta</ojp.version>
+        <ojp.version>0.4.5-beta</ojp.version>
     </properties>
 
     <modules>
