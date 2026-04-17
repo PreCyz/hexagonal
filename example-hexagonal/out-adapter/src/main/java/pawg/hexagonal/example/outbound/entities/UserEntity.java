@@ -3,6 +3,8 @@ package pawg.hexagonal.example.outbound.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 
@@ -29,5 +31,9 @@ public class UserEntity {
 
     @Column
     private LocalDateTime updatedAt;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "json")
+    private String metadata;
 
 }

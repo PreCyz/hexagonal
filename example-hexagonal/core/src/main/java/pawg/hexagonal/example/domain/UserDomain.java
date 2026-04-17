@@ -7,6 +7,7 @@ public record UserDomain(
         String name,
         String email,
         LocalDateTime createDateTime,
-        LocalDateTime updateDateTime
+        LocalDateTime updateDateTime,
+        String metadata
 ) {
 }
