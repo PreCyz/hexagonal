@@ -14,12 +14,17 @@ ojp:
       enabled: true
   health:
     check:
-      interval: 20s
-      threshold: 20s
-      timeout: 2s
+      interval: 3600s
+      threshold: 60s
+      timeout: 1s
   redistribution:
     idleRebalanceFraction: 1.0
     maxClosePerRecovery: 100
   multinode:
     retryAttempts: -1
     retryDelayMs: 5000
+
+logging:
+  level:
+    root: info
+    org.openjproxy: debug

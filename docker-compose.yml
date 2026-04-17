@@ -2,7 +2,7 @@ name: open-j-proxy-servers
 
 services:
   ojp-proxy-1:
-    image: rrobetti/ojp:0.4.5-beta
+    image: rrobetti/ojp:0.4.6-beta
     container_name: ojp-server-1
     restart: unless-stopped
     ports:
@@ -41,7 +41,7 @@ services:
       start_period: 40s
 
   ojp-proxy-2:
-    image: rrobetti/ojp:0.4.5-beta
+    image: rrobetti/ojp:0.4.6-beta
     container_name: ojp-server-2
     restart: unless-stopped
     ports:
@@ -80,7 +80,7 @@ services:
       start_period: 40s
 
   ojp-proxy-3:
-    image: rrobetti/ojp:0.4.5-beta
+    image: rrobetti/ojp:0.4.6-beta
     container_name: ojp-server-3
     restart: unless-stopped
     ports:
