@@ -1,11 +1,11 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/example?createDatabaseIfNotExist=true&sslMode=PREFERRED&serverTimezone=UTC
+    url: jdbc:postgresql://localhost:5432/userdb
     username: hexample
     password: hexample
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
-      driver-class-name: com.mysql.cj.jdbc.Driver
+      driver-class-name: org.postgresql.Driver
       connection-timeout: 50000
       maximum-pool-size: 10
       minimum-idle: 10
@@ -22,18 +22,3 @@ spring:
         cacheServerConfiguration: true
         elideSetAutoCommits: true
         maintainTimeStats: false
-
-  jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
-        jdbc:
-          lob:
-            non_contextual_creation: true
-          time_zone: UTC
-        format_sql: true
-    show-sql: true
-    generate-ddl: true
-    # Hibernate ddl auto (none, create, create-drop, validate, update)
-    hibernate:
-      ddl-auto: update

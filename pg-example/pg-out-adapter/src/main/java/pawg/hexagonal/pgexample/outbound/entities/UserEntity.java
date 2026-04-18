@@ -1,4 +1,4 @@
-package pawg.hexagonal.example.outbound.entities;
+package pawg.hexagonal.pgexample.outbound.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;

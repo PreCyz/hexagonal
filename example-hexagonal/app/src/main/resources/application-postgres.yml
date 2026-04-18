@@ -1,0 +1,46 @@
+spring:
+# The SQL dialect makes Hibernate generate better SQL for the chosen database
+  datasource:
+    url: jdbc:ojp[localhost:1059,localhost:1060,localhost:1061]_postgresql://host.docker.internal:5432/hexagonal?currentSchema=example_db
+    #    url: jdbc:ojp[localhost:1059]_postgresql://host.docker.internal:5432/hexagonal?currentSchema=example_db
+    username: pg-example-db
+    password: kSVwQiyD7kAPZ7yHzh
+#    driver-class-name: org.openjproxy.jdbc.Driver
+#    type: org.springframework.jdbc.datasource.SimpleDriverDataSource
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
+          time_zone: UTC
+        format_sql: true
+    show-sql: true
+    generate-ddl: true
+    # Hibernate ddl auto (none, create, create-drop, validate, update)
+    hibernate:
+      ddl-auto: update
+
+ojp:
+  loadaware:
+    selection:
+      enabled: true
+  health:
+    check:
+      interval: 3600s
+      threshold: 60s
+      timeout: 1s
+  redistribution:
+    idleRebalanceFraction: 1.0
+    maxClosePerRecovery: 100
+  multinode:
+    retryAttempts: -1
+    retryDelayMs: 5000
+
+logging:
+  level:
+    root: info
+    org.openjproxy: debug
+
