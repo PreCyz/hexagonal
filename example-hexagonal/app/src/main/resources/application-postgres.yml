@@ -1,8 +1,8 @@
 spring:
 # The SQL dialect makes Hibernate generate better SQL for the chosen database
   datasource:
-    url: jdbc:ojp[localhost:1059,localhost:1060,localhost:1061]_postgresql://host.docker.internal:5432/hexagonal?currentSchema=example_db
-    #    url: jdbc:ojp[localhost:1059]_postgresql://host.docker.internal:5432/hexagonal?currentSchema=example_db
+#    url: jdbc:ojp[localhost:1059,localhost:1060,localhost:1061]_postgresql://host.docker.internal:5432/hexagonal?currentSchema=example_db
+    url: jdbc:ojp[localhost:1059]_postgresql://host.docker.internal:5432/hexagonal?currentSchema=example_db
     username: pg-example-db
     password: kSVwQiyD7kAPZ7yHzh
 #    driver-class-name: org.openjproxy.jdbc.Driver

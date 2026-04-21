@@ -1,12 +1,30 @@
+server:
+  port: 8082
+
 spring:
 # The SQL dialect makes Hibernate generate better SQL for the chosen database
   datasource:
-    url: jdbc:ojp[localhost:1059,localhost:1060,localhost:1061]_mysql://host.docker.internal:3306/example?createDatabaseIfNotExist=true&sslMode=PREFERRED&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
-#    url: jdbc:ojp[localhost:1059]_mysql://host.docker.internal:3306/example?createDatabaseIfNotExist=true&sslMode=PREFERRED&serverTimezone=UTC
+#    url: jdbc:ojp[localhost:1059,localhost:1060,localhost:1061]_mysql://host.docker.internal:3306/example?createDatabaseIfNotExist=true&sslMode=PREFERRED&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
+    url: jdbc:ojp[localhost:1059]_mysql://host.docker.internal:3306/example?createDatabaseIfNotExist=true&sslMode=PREFERRED&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
     username: hexample
     password: hexample
 #    driver-class-name: org.openjproxy.jdbc.Driver
 #    type: org.springframework.jdbc.datasource.SimpleDriverDataSource
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
+          time_zone: UTC
+        format_sql: true
+    show-sql: true
+    generate-ddl: true
+    # Hibernate ddl auto (none, create, create-drop, validate, update)
+    hibernate:
+      ddl-auto: update
 
 ojp:
   loadaware:

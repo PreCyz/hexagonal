@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/userdb
-    username: hexample
-    password: hexample
+    url: jdbc:postgresql://localhost:5432/hexagonal?currentSchema=post_example_db
+    username: pg-users-db
+    password: xZovSm5FUcmNMudwNe
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
       driver-class-name: org.postgresql.Driver
