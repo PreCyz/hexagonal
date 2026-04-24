@@ -20,6 +20,8 @@ spring:
             non_contextual_creation: true
           time_zone: UTC
         format_sql: true
+        hbm2ddl:
+          halt_on_error: true
     show-sql: true
     generate-ddl: true
     # Hibernate ddl auto (none, create, create-drop, validate, update)
