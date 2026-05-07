@@ -7,6 +7,7 @@
         <groupId>pawg.hexagonal</groupId>
         <artifactId>pg-example</artifactId>
         <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>pawg.hexagonal.pgexample</groupId>
@@ -23,6 +24,12 @@
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>6.0.3</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

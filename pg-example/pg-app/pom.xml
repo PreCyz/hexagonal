@@ -6,6 +6,7 @@
         <groupId>pawg.hexagonal</groupId>
         <artifactId>pg-example</artifactId>
         <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <groupId>pawg.hexagonal.pgexample</groupId>
     <artifactId>pg-app</artifactId>

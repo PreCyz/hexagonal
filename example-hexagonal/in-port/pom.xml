@@ -6,6 +6,7 @@
         <groupId>pawg.hexagonal</groupId>
         <artifactId>example-hexagonal</artifactId>
         <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>in-port</artifactId>
     <groupId>pawg.hexagonal.example</groupId>

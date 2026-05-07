@@ -17,7 +17,7 @@ public class BusinessCaseService implements BusinessCase {
     @Override
     public void validate(UserDomain userDomain) {
         if (userDomain == null) {
-            throw new IllegalArgumentException("userDomain is null");
+            throw new IllegalArgumentException("userDomain is null qpa");
         }
     }
 

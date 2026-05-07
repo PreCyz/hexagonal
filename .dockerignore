@@ -1,0 +1,12 @@
+target
+.idea
+bruno
+build
+diagrams
+ojp-libs
+.git
+*.dat
+.gitignore
+docker-compose.yml
+*.iml
+*.md
