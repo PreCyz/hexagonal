@@ -18,9 +18,4 @@ class BusinessCaseServiceTest {
         assertEquals(1, actual);
     }
 
-    @Test
-    void validate2() {
-        int actual = 1;
-        assertEquals(1, actual);
-    }
 }

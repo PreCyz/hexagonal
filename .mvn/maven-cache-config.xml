@@ -1,9 +1,22 @@
-<cache xmlns="http://maven.apache.org/BUILD-CACHE/1.0.0">
+<?xml version="1.0" encoding="UTF-8" ?>
+<cache xmlns="http://maven.apache.org/BUILD-CACHE-CONFIG/1.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://maven.apache.org/BUILD-CACHE-CONFIG/1.2.0 https://maven.apache.org/xsd/build-cache-config-1.2.0.xsd">
     <configuration>
         <enabled>true</enabled>
-        <hashAlgorithm>XXH64</hashAlgorithm> <!-- Szybszy niż SHA-256 przy dużej liczbie plików -->
-        <!--<remote enabled="true">
-            <url>http://twoj-storage-cache.local/maven-cache</url> &lt;!&ndash; Opcjonalnie: współdzielony cache dla całego zespołu &ndash;&gt;
-        </remote>-->
+        <hashAlgorithm>XXH64</hashAlgorithm>
+        <local>
+            <maxBuildsCached>3</maxBuildsCached>
+        </local>
+
+<!-- The cache could be configured to autocorrect metadata (most notably MANIFEST.MF Implementation-Version).
+     The correction requires copying and repacking archive entries and adds overhead. If the metadata state
+     is not relevant for the build, consider disabling it (off by default):-->
+        <projectVersioning adjustMetaInf="false"/>
     </configuration>
+    <input>
+        <global>
+            <!--  If not defined, default glob is "*"  -->
+            <glob> {*.java,*.groovy,*.yaml,*.yml,*.xml,*.properties,*.sh,*.bat,*.sql,*.ps1,*.cmd} </glob>
+        </global>
+    </input>
 </cache>
