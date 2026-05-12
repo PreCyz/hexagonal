@@ -1,0 +1,35 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: "0.0.0.0:4317"
+      http:
+        cors:
+          allowed_origins:
+            - "http://localhost:8888" # GWT (Default)
+            - "http://localhost:8080" # JPetstore backend
+        endpoint: "0.0.0.0:4318"
+
+exporters:
+  debug:
+    verbosity: basic # <-- Use 'normal' to reduce excessive logs, or 'basic' for minimal logs
+
+  otlp:
+    endpoint: "http://jaeger:4317" # Send traces to Jaeger via gRPC
+    tls:
+      insecure: true
+
+service:
+  telemetry:
+    logs:
+      level: error # Reduce internal logs of the collector
+    metrics:
+      level: none # Disable internal metrics
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [otlp, debug]
+
+    # logs:
+    #   receivers: [otlp]
+    #   exporters: [otlp, debug]
