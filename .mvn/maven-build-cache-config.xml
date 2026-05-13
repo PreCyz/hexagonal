@@ -3,7 +3,7 @@
        xsi:schemaLocation="http://maven.apache.org/BUILD-CACHE-CONFIG/1.2.0 https://maven.apache.org/xsd/build-cache-config-1.2.0.xsd">
     <configuration>
         <enabled>true</enabled>
-        <hashAlgorithm>XXH64</hashAlgorithm>
+        <hashAlgorithm>XX</hashAlgorithm>
         <local>
             <maxBuildsCached>3</maxBuildsCached>
         </local>
@@ -16,7 +16,7 @@
     <input>
         <global>
             <!--  If not defined, default glob is "*"  -->
-            <glob> {*.java,*.groovy,*.yaml,*.yml,*.xml,*.properties,*.sh,*.bat,*.sql,*.ps1,*.cmd} </glob>
+            <glob> {*.java,*.yaml,*.yml,*.xml,*.properties,*.sh,*.bat,*.sql,*.ps1,*.cmd} </glob>
         </global>
     </input>
 </cache>
